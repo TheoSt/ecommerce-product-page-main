@@ -1,0 +1,122 @@
+* {
+    margin:0;
+    padding:0;
+    font-family:'Kumbh Sans', sans-serif;
+}
+
+body {
+    width:100%;
+}
+
+li {
+    list-style-type:none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.navbar {
+    width:100%;
+    position:relative;
+}
+
+.main-nav {
+    width:90%;
+    margin:1em auto;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-menu-section {
+    width:60%;
+}
+
+.logo-menu-section img:nth-of-type(2) {
+    width:75%;
+    margin-left:0.5em;
+}
+
+.user-section {
+    width:40%;
+}
+
+.user-section img {
+    width:20%;
+    float:right;
+    margin-left:1em;
+}
+
+.nav-menu {
+    width:70%;
+    position:absolute;
+    left:-100%;
+    top:0;
+    z-index: 1;
+    height:100vh;
+    background-color:white;
+    transition:left .8s;
+}
+
+.active-menu {
+    left:0;
+}
+
+.nav-menu img {
+    margin-left:1em;
+}
+
+.nav-items {
+    margin:2em 0 0 1em;
+}
+
+.nav-item:not(:first-of-type) {
+    margin-top:1em;
+    
+}
+
+.nav-item a {
+    font-size:1.1rem;
+    color:hsl(220, 13%, 13%);
+    font-weight: 700;
+}
+
+.desktop-gallery {
+    display:none;
+}
+
+.product-gallery {
+    width:100%;
+    position:relative;
+}
+
+.product-main-image {
+    width:100%;
+}
+
+.mobile-gallery {
+    height:3em;
+    margin:auto 0.5em;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+
+.mobile-gallery button {
+    border-radius:50%;
+    border:none;
+    background-color:white;
+    width:3em;
+    height:3em;
+}
+
+.mobile-gallery button:first-of-type {
+    float:left;
+}
+
+.mobile-gallery button:nth-of-type(2) {
+    float:right;
+}
