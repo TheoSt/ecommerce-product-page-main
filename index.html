@@ -17,83 +17,90 @@
           <img id="ham-icon" src="images/icon-menu.svg" alt="menu dropdown">
           <img src="images/logo.svg" alt="logo image">
         </div>
-        <div class="user-section">
-          <img src="images/image-avatar.png" alt="avatar image">
-          <img src="images/icon-cart.svg" alt="cart image">
+        <div class="nav-menu">
+          <img id="close-icon" src="images/icon-close.svg" alt="close image">
+          <ul class="nav-items">
+            <li class="nav-item">
+              <a href="#">Collections</a>
+            </li>
+            <li class="nav-item">
+              <a href="#">Men</a>
+            </li>
+            <li class="nav-item">
+              <a href="#">Women</a>
+            </li>
+            <li class="nav-item">
+              <a href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a href="#">Contact</a>
+            </li>
+          </ul>
         </div>
-      </div>
-      <div class="nav-menu">
-        <img id="close-icon" src="images/icon-close.svg" alt="close image">
-        <ul class="nav-items">
-          <li class="nav-item">
-            <a href="#">Collections</a>
-          </li>
-          <li class="nav-item">
-            <a href="#">Men</a>
-          </li>
-          <li class="nav-item">
-            <a href="#">Women</a>
-          </li>
-          <li class="nav-item">
-            <a href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a href="#">Contact</a>
-          </li>
-        </ul>
+        <div class="user-section">
+          <img id="cart-img" src="images/icon-cart.svg" alt="cart image">
+          <img id="avatar-img" src="images/image-avatar.png" alt="avatar image">
+        </div>
       </div>
     </nav>
   </header>
   <main>
-    <section id="images-section">
-      <div class="product-gallery">
-        <div class="mobile-gallery">
-          <button><img src="images/icon-previous.svg" alt="previous icon"></button>
-          <button><img src="images/icon-next.svg" alt="previous icon"></button>
-        </div>
-        <img class="product-main-image" src="images/image-product-1.jpg" alt="product image">
+    <section class="cart-container">
+      <p>Cart</p>
+      <div class="products-container">
+        <p class="empty-cart-text">Your cart is empty.</p>
+        <button class="main-btn" id="checkout-btn">Checkout</button>
       </div>
-      <div class="desktop-gallery">
-        <ul class="thumbnails">
-          <li class="thumbnail">
-            <img src="images/image-product-1-thumbnail.jpg" alt="product thumbnail">
-          </li>
-          <li class="thumbnail">
-            <img src="images/image-product-2-thumbnail.jpg" alt="product thumbnail">
-          </li>
-          <li class="thumbnail">
-            <img src="images/image-product-3-thumbnail.jpg" alt="product thumbnail">
-          </li>
-          <li class="thumbnail">
-            <img src="images/image-product-4-thumbnail.jpg" alt="product thumbnail">
-          </li>
-        </ul>
+    </section>
+    <section id="images-section">
+      <div class="main-gallery">
+        <img class="product-main-image" src="images/image-product-1.jpg" alt="product image">
+        <div class="thumbnails">
+          <ul>
+            <li class="thumbnail">
+              <img src="images/image-product-1-thumbnail.jpg">
+            </li>
+            <li class="thumbnail">
+              <img src="images/image-product-2-thumbnail.jpg">
+            </li>
+            <li class="thumbnail">
+              <img src="images/image-product-3-thumbnail.jpg">
+            </li>
+            <li class="thumbnail">
+              <img src="images/image-product-4-thumbnail.jpg">
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="lightbox-gallery">
+        <img class="product-main-image" alt="product image">
+        <div class="gallery-btns">
+          <button><img class="gallery-btn" src="images/icon-previous.svg" alt="previous icon" data-gallery="previous"></button>
+          <button><img class="gallery-btn" src="images/icon-next.svg" alt="next icon" data-gallery="next"></button>
+        </div>
+        <div class="lightbox-thumbnails"></div>
       </div>
     </section>
     <section id="product-section">
       <div class="main-info">
-        <h1>sneaker company</h1>
-        <h2>Fall Limited Edition Sneaker</h2>
-        <p>
-          These low-profile sneakers are your perfect casual wear companion.
-          Featuring a durable rubber outer sole, they'll withstand everything
-          the weather can offer.
-        </p>
+        <h1 id="product-company"></h1>
+        <h2 id="product-name"></h2>
+        <p id="product-info"></p>
       </div>
       <div class="product-price">
         <div class="price-info">
-          <span>$125.00</span>
-          <span>50%</span>
+          <span id="product-price"></span>
+          <span id="product-sale"></span>
         </div>
-        <span>$250.00</span>
+        <span id="product-init-price"></span>
       </div>
       <div class="add-cart-section">
         <div class="quantity-sel">
-          <img src="images/icon-minus.svg" alt="minus image">
-          <span>0</span>
-          <img src="images/icon-plus.svg" alt="plus image">
+          <img class="change-qnty" src="images/icon-minus.svg" alt="minus image" data-value="minus">
+          <span id="qnty-counter">0</span>
+          <img class="change-qnty" src="images/icon-plus.svg" alt="plus image" data-value="plus">
         </div>
-        <button><img src="images/icon-cart.svg">Add to cart</button>
+        <button class="main-btn" id="add-cart-btn"><img src="images/icon-cart.svg"><span>Add to cart</span></button>
       </div>
     </section>
   </main>
