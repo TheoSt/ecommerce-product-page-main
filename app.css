@@ -6,6 +6,7 @@
 
 body {
     width:100%;
+    background-color:white;
 }
 
 li {
@@ -27,6 +28,9 @@ a {
     letter-spacing: 1px;
     font-size:0.9rem;
 }
+.main-btn:hover {
+    opacity:0.8;
+}
 
 .navbar {
     width:100%;
@@ -35,7 +39,7 @@ a {
 
 .main-nav {
     width:90%;
-    margin:1em auto;
+    margin:2em auto;
     display:flex;
     justify-content: space-between;
     align-items: center;
@@ -70,11 +74,11 @@ a {
 #cart-qnty {
     background-color:hsl(26, 100%, 55%);
     color:white;
-    font-size:0.7rem;
+    font-size:0.5rem;
     padding:0.2rem 0.7rem;
     border-radius:10px;
     position:absolute;
-    top:-30%;
+    top:-20%;
     right:20%;
     display:none;
 }
@@ -127,7 +131,7 @@ main {
 
 #cart-img:hover,
 #avatar-img:hover,
-#add-cart-btn:hover,
+.main-btn:hover,
 .change-qnty:hover,
 .thumbnails .thumbnail:hover,
 .nav-item:hover,
@@ -405,10 +409,19 @@ main {
     filter:contrast(100) invert(1);
 }
 
-#add-cart-btn:hover {
-    opacity:0.8;
+footer {
+    width:90%;
+    margin:1em auto;
+    text-align:center;
+    color:hsl(219, 9%, 45%);
+    font-size:0.8rem;
 }
 
+footer a {
+    text-decoration: none;
+    color:hsl(220, 13%, 13%);
+    font-weight:700;
+}
 
 @media screen and (min-width:500px) {
     .logo-menu-section img:nth-of-type(2) {
@@ -706,6 +719,10 @@ main {
     #add-cart-btn {
         width:50%;
     }
+
+    footer {
+        font-size:1rem;
+    }
 }
 
 @media screen and (min-width:1440px) {
@@ -717,6 +734,11 @@ main {
     .lightbox-gallery .product-main-image,
     .lightbox-gallery .thumbnails {
         width:60%;
+    }
+
+    .lightbox-gallery .gallery-btns {
+        width:60%;
+        left:20%;
     }
 
     #cart-img {
@@ -774,7 +796,7 @@ main {
         width:50%;
     }
 
-    .gallery-btns {
+    .lightbox-gallery .gallery-btns {
         width:50%;
         left:25%;
     }
