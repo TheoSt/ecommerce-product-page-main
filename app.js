@@ -1,45 +1,3 @@
-let hamIcon = document.querySelector("#ham-icon");
-let navMenu = document.querySelector(".nav-menu");
-let closeIcon = document.querySelector("#close-icon");
-let cartImg = document.querySelector("#cart-img");
-let cartContainer = document.querySelector(".cart-container");
-let gallerymainImage = document.querySelectorAll(".product-main-image")[0];
-let boxMainImage = document.querySelectorAll(".product-main-image")[1];
-let galleryBtns = document.querySelectorAll(".gallery-btn");
-let changeQntyBtns = document.querySelectorAll(".change-qnty");
-let qntyCounterElem = document.querySelector("#qnty-counter");
-let addCartBtn = document.querySelector("#add-cart-btn");
-let productsContainerElem = document.querySelector(".products-container");
-let checkoutBtn = document.querySelector("#checkout-btn");
-let emptyCartText = document.querySelector(".empty-cart-text");
-
-
-let productCompanyElem = document.querySelector("#product-company");
-let productNameElem = document.querySelector("#product-name");
-let productInfoElem = document.querySelector("#product-info");
-let productPriceElem = document.querySelector("#product-price");
-let productSaleElem = document.querySelector("#product-sale");
-let productInitPriceElem = document.querySelector("#product-init-price");
-
-var productImages = [
-    "images\\image-product-1.jpg",
-    "images\\image-product-2.jpg",
-    "images\\image-product-3.jpg",
-    "images\\image-product-4.jpg",
-];
-
-var productThumbnails = [
-    "images\\image-product-1-thumbnail.jpg",
-    "images\\image-product-2-thumbnail.jpg",
-    "images\\image-product-3-thumbnail.jpg",
-    "images\\image-product-4-thumbnail.jpg"
-];
-var info  = "These low-profile sneakers are your perfect casual wear companion.Featuring a durable rubber outer sole, they'll withstand everythingthe weather can offer."
-var productName = "Fall Limited Edition Sneaker";
-var productCompany ="sneaker company";
-
-let qntyCounter = 0;
-let galleryCounter = 0;
 
 class Product {
     constructor(name,company,images,initPrice,sale,info) {
@@ -75,7 +33,7 @@ class Product {
         return this.info;
     }
 
-    get getSalePrice() {
+    get getSalePrice() { //if product is in sale return the sale price
         if(this.isInSale) {
             return this.initPrice - this.initPrice * (this.sale/100);
         }
@@ -94,70 +52,232 @@ class Product {
     }
 };
 
-let productOne = new Product(productName,productCompany,productImages,250,50,info);
+//selectors
+let overlay = document.querySelector("#overlay");
+
+let hamIcon = document.querySelector("#ham-icon");
+let navMenu = document.querySelector(".nav-menu");
+let closeIcon = document.querySelector("#close-icon");
+let tabLabel = document.querySelector("hr");
+let tabs = document.querySelectorAll(".nav-item");
+
+let cartImg = document.querySelector("#cart-img");
+let cartQnty = document.querySelector("#cart-qnty");
+let cartContainer = document.querySelector(".cart-container");
+let addCartBtn = document.querySelector("#add-cart-btn");
+let productsContainerElem = document.querySelector(".products-container");
+let checkoutBtn = document.querySelector("#checkout-btn");
+let emptyCartText = document.querySelector(".empty-cart-text");
+
+let galleryMainImage = document.querySelectorAll(".product-main-image")[0];
+let boxMainImage = document.querySelectorAll(".product-main-image")[1];
+let mainGalleryBtns = document.querySelectorAll(".main-gallery .gallery-btn");
+let boxGalleryBtns = document.querySelectorAll(".lightbox-gallery .gallery-btn");
+let lightBox = document.querySelector(".lightbox-gallery");
+let lightBoxClose = document.querySelector("#lightbox-close");
+
+let changeQntyBtns = document.querySelectorAll(".change-qnty");
+let qntyCounterElem = document.querySelector("#qnty-counter");
+
+let thumbnails = document.querySelectorAll(".thumbnail");
+let thumbnailsContainer = document.querySelector(".thumbnails");
+
+let productCompanyElem = document.querySelector("#product-company");
+let productNameElem = document.querySelector("#product-name");
+let productInfoElem = document.querySelector("#product-info");
+let productPriceElem = document.querySelector("#product-price");
+let productSaleElem = document.querySelector("#product-sale");
+let productInitPriceElem = document.querySelector("#product-init-price");
+
+var productImages = [
+    "images\\image-product-1.jpg",
+    "images\\image-product-2.jpg",
+    "images\\image-product-3.jpg",
+    "images\\image-product-4.jpg",
+];
+
+var productThumbnails = [
+    "images\\image-product-1-thumbnail.jpg",
+    "images\\image-product-2-thumbnail.jpg",
+    "images\\image-product-3-thumbnail.jpg",
+    "images\\image-product-4-thumbnail.jpg"
+];
+
+var info  = "These low-profile sneakers are your perfect casual wear companion.Featuring a durable rubber outer sole, they'll withstand everythingthe weather can offer."
+var productName = "Fall Limited Edition Sneaker";
+var productCompany ="sneaker company";
+
+let qntyCounter = 0;
+let galleryCounter = 0;
+let activeMainThumb = thumbnails[0].children[0]; //the first thumb is the active thumb
+let activeGalleryThumb = null;
+let cart = [];
+
+//the main gallery thumbnails are same with the lightbox so clone them
+const item = thumbnailsContainer;
+const clone = item.cloneNode(true);
+lightBox.appendChild(clone);
+
+//after cloning take the thumbs of lightbox and set the 
+var boxThumbnails = document.querySelectorAll(".lightbox-gallery .thumbnail");
+
+//set the main gallery thumb 
+activeMainThumb.classList.toggle("active-thumb");
+
+let productOne = new Product(productName,productCompany,productImages,250,50,info); //init the product
 showProduct(productOne);
 
-hamIcon.addEventListener("click", function() {
-    navMenu.classList.toggle("active-menu");
-});
-
-closeIcon.addEventListener("click",function() {
-    navMenu.classList.toggle("active-menu");
-});
-
-cartImg.addEventListener("click",function() {
-    cartContainer.classList.toggle("active-cart");
-});
-
-galleryBtns.forEach(btn => {
-    btn.addEventListener("click",function() {
-        var data = this.dataset.gallery;
-        showImage(data);
+tabs.forEach(tab=>{ //for the tabs of nav
+    tab.addEventListener("click",function() {
+        moveTabLabel(this);
     })
 });
 
-changeQntyBtns.forEach(btn => {
+overlay.addEventListener("click",function() { //if we click the lightbox overlay or the close button then remove the box
+    offOverlay();
+})
+
+lightBoxClose.addEventListener("click",function() {
+    offOverlay();
+});
+
+hamIcon.addEventListener("click", function() { //for the navmenu
+    navMenu.classList.toggle("active-menu");
+});
+
+closeIcon.addEventListener("click",function() { //for the nav menu close icon
+    navMenu.classList.toggle("active-menu");
+});
+
+cartImg.addEventListener("click",function() { //to show the cart
+    cartContainer.classList.toggle("active-cart");
+});
+
+mainGalleryBtns.forEach(btn => { //for the main gallery images in mobile version
+    btn.addEventListener("click",function() {
+        var data = this.dataset.gallery;
+        showImage(data,galleryMainImage);
+    })
+});
+
+boxGalleryBtns.forEach(btn=> { //for the gallery buttons in lightbox mode
+    btn.addEventListener("click",function() {
+        var data = this.dataset.gallery;
+        showImage(data,boxMainImage);
+        updateBoxThumb(boxThumbnails[galleryCounter].children[0]);
+    })
+})
+
+changeQntyBtns.forEach(btn => { //to change the product quantity
     btn.addEventListener("click",function() {
         var data = this.dataset.value;
         updateQntyCounter(data);
     })
 });
 
-
-addCartBtn.addEventListener("click",function() {
+addCartBtn.addEventListener("click",function() { //update the cart when we press the add button
     updateCart(productOne);
 });
 
+boxThumbnails.forEach(thumb => { //for the thumbnails and images of the lightbox 
+    thumb.addEventListener("click",function() {
+        updateBoxThumb(this.children[0]);
+        galleryImage(boxMainImage,activeGalleryThumb);
 
-function showImage(d) {
-    if(d==="previous") {
-        galleryCounter--;
-        if(galleryCounter<0) galleryCounter = productOne.getImages.length-1; 
+        galleryCounter = findThumb(boxThumbnails,activeGalleryThumb);
+        
+    })
+});
+
+thumbnails.forEach(thumb => { //for the main gallery thumbs and images
+    thumb.addEventListener("click",function() {
+        updateMainThumb(this.children[0]);
+
+        galleryCounter = findThumb(thumbnails,activeMainThumb);
+
+        galleryImage(galleryMainImage,activeMainThumb);
+    })
+});
+
+galleryMainImage.addEventListener("click",function() { //in desktop when we click the main image open the lightbox and show first the selected image
+    if(window.innerWidth>=1000) {
+        boxMainImage.src = galleryMainImage.src;
+
+        activeGalleryThumb = Array.from(boxThumbnails).find(t=>t.children[0].src===activeMainThumb.src).children[0]; //to find the selected the thumbnail
+        activeGalleryThumb.classList.toggle("active-thumb");
+    
+        onOverlay();
     }
-    else if(d==="next") {
+});
+
+/*functions*/
+function moveTabLabel(tab) { //for the tab label
+    var label = tab.dataset.label;
+    tabLabel.style.marginLeft = (label*15+label*6.25)+"%";
+}
+
+function findThumb(thumbnails,target) { //to find the index of the thumb we are
+    for(var i=0; i<thumbnails.length; i++) {
+        if(target === thumbnails[i].children[0]) return i;
+    }
+}
+
+function updateMainThumb(target) { //toggle the thumb we clicked
+    if(activeMainThumb) activeMainThumb.classList.toggle("active-thumb");
+        
+    activeMainThumb = target;
+    activeMainThumb.classList.toggle("active-thumb");
+}
+
+function updateBoxThumb(target) { //same for the box thumbs
+    if(activeGalleryThumb) activeGalleryThumb.classList.toggle("active-thumb");
+        
+    activeGalleryThumb = target;
+    activeGalleryThumb.classList.toggle("active-thumb");
+}
+
+function onOverlay() { //show overlay and lightbox
+    overlay.style.display="block";
+    lightBox.style.display="flex";
+}
+
+function offOverlay() { //remove overlay and lightbox
+    overlay.style.display="none";
+    activeGalleryThumb.classList.toggle("active-thumb");
+    activeGalleryThumb = null;
+    lightBox.style.display="none";
+}
+
+function showImage(val,image) { //for the navigation of images when pressing the gallery buttons
+    if(val==="previous") {
+        galleryCounter--;
+        if(galleryCounter<0) galleryCounter = productOne.getImages.length-1;
+    }
+    else if(val==="next") {
         if(galleryCounter===productOne.getImages.length-1) galleryCounter = 0;
         else galleryCounter++;  
     }
     else {
         return;
     }
-    boxMainImage.src = productOne.getImage(galleryCounter);
+   image.src = productOne.getImage(galleryCounter);
 }
 
-function updateQntyCounter(d) {
-    if(d==="plus") {
+function updateQntyCounter(val) {
+    if(val==="plus") {
         qntyCounter++;
-        
     }
-    else if(d==="minus") {
+    else if(val==="minus") {
         qntyCounter--;
         if(qntyCounter<0) qntyCounter = 0;
     }
-
+    else {
+        return;
+    }
     qntyCounterElem.textContent = qntyCounter; 
 }
 
-function showProduct(product) {
+function showProduct(product) { //init the product when we load the page
     boxMainImage.src = product.getImage(0); 
     productCompanyElem.textContent  = product.getCompany;
     productNameElem.textContent = product.getName;
@@ -174,12 +294,13 @@ function showProduct(product) {
     }
 }
 
-function updateCart(product) {
-
-    if(qntyCounter>0 && productsContainerElem.children.length===2) {
+function updateCart(product) { //when we click the add button update
+    if(qntyCounter>0 && productsContainerElem.children.length===2) { //if cart is empty (productsContainer contains the empty text and the checkout button)
         emptyCartText.style.display = "none";
         productsContainerElem.insertBefore(createProdContainer(product),checkoutBtn);
         checkoutBtn.style.display = "block";
+
+        showCartQnty();
     }
     else {
         if(qntyCounter===0) {
@@ -189,16 +310,22 @@ function updateCart(product) {
             var qntyElement = document.querySelector(".qnty");
             var finalPrice = document.querySelector(".final-price");
 
-            
             qntyElement.textContent = qntyCounter;
 
             var price = product.isInSale()? product.getSalePrice : product.getInitPrice;
             finalPrice.textContent = `$${qntyCounter * price}`;
+
+            showCartQnty();
         }
     }
 }
 
-function createProdContainer(product) {
+function showCartQnty() {
+    cartQnty.style.display = "block";
+    cartQnty.textContent = qntyCounter;
+}
+
+function createProdContainer(product) { //create the product container in cart
 
     const productContainer = document.createElement("div");
     productContainer.classList.add("product-container");
@@ -220,7 +347,6 @@ function createProdContainer(product) {
     const info = document.createElement("div");
     const par = document.createElement("p");
     par.textContent = product.getName;
-    //.slice(0,product.getName.length-9)+"...";
 
     info.appendChild(par);
     cartInfo.appendChild(info);
@@ -254,15 +380,16 @@ function createProdContainer(product) {
 
     productContainer.appendChild(cartInfo);
 
-    const trashDiv = document.createElement("div");
-    trashDiv.classList.add("trash-bin");
-    const trashImage = document.createElement("img");
-    trashImage.src = "images/icon-delete.svg";
-    trashImage.addEventListener("click",deleteProduct);
+    const binDiv = document.createElement("div");
+    binDiv.classList.add("bin-icon");
+    const binImage = document.createElement("img");
+    binImage.src = "images/icon-delete.svg";
+    binImage.alt = "bin icon"
+    binImage.addEventListener("click",deleteProduct);
 
-    trashDiv.appendChild(trashImage);
+    binDiv.appendChild(binImage);
 
-    productContainer.appendChild(trashDiv);
+    productContainer.appendChild(binDiv);
 
     return productContainer;
 }
@@ -276,4 +403,13 @@ function initCart() {
     document.querySelector(".product-container").remove();
     productsContainerElem.children[0].style.display="block";  
     checkoutBtn.style.display ="none";
+
+    cartQnty.textContent = "";
+    cartQnty.style.display="none";
+}
+
+
+function galleryImage(image,thumb) { //when we click the thumbnail change the mainImage
+    var src = thumb.src.replace("-thumbnail","");
+    image.src = src;
 }
