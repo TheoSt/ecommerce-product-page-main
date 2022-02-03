@@ -174,13 +174,12 @@ main {
     transition:max-height 0.5s;
 }
 
-.cart-container > p {
+.cart-container > h2 {
     font-size:1rem;
     font-weight: 700;
     color:hsl(220, 13%, 13%);
     width:90%;
-    margin:1em auto 0;
-    height:5vh;
+    margin:1em auto;
 }
 
 .empty-cart-text {
